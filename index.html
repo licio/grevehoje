@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Greve Hoje</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.js"></script>
+        <style type="text/css">
+            body {
+                font-family: "MgOpen Moderna", "Helvetica Neue", Helvetica, sans-serif;
+                color: #333;
+                margin: 50px auto;
+                width: 700px;
+            }
+            .itsNotFriday {
+                display: none;
+            }
+            h1 {
+                color: #cc0000;
+                font-family: "MgOpen Moderna", "Helvetica Neue", Helvetica, sans-serif;
+                font-size: 64px;
+                letter-spacing: -0.07em;
+                margin: 0;
+            }
+            p.feature {
+                font-size: 20px;
+                margin: 0 0 20px;
+                color: #888a85;
+            }
+            h2 {
+                margin: 0 0 0 -0.9em;
+                font-weight: normal;
+                font-family: "FreeSerif", Garamond, "Times New Roman", serif;
+                font-style: italic;
+                font-size: 64px;
+                letter-spacing: -0.07em;
+                color: #888a85;
+            }
+            h2 a {
+                color: #3465a4;
+            }
+            h2 a:hover {
+                color: #0774ff;
+            }
+            input.text {
+                padding: 7px;
+                width: 10em;
+                font: inherit;
+                font-size: 17px;
+                line-height: 20px;
+            }
+            button {
+                padding: 7px;
+                line-height: 20px;
+            }
+            p.result {
+                font-size: 18px;
+            }
+            
+            .next {
+                display: none;
+            }
+            
+            #footer {
+                margin-top: 50px;
+                color: #999;
+                font-size: 12px;
+            }
+            
+            #footer a {
+                color: inherit;
+            }
+            #footer a:hover {
+                color: #3465a4;
+            }
+        </style>
+        <script type="text/javascript">
+        
+        $(document).ready(function() {
+       		$('div#loader').hide(); 
+            var d = new Date();
+            if (5 == d.getDay()) {
+                $('.itsNotFriday').hide();
+                $('.itsFriday').hide().fadeIn();
+            } else {
+                $('.itsNotFriday').hide().fadeIn();
+                $('.itsFriday').hide();
+            }
+
+        
+            $('form').submit(function(e) {
+		$('div#loader').show();
+                $.ajax({
+                    url: $('form').attr('action'),
+                    type: 'POST',
+                    data: $('form').serialize(),
+                    cache: 'false',
+                    dataType: 'text',
+                    success: function(data) {
+			$('div#loader').hide();
+                        $('a.linkToTwitter').attr('href', 'http://twitter.com/?status=' + escape(data))
+                        $('.result').html(data);
+                        $('.next').fadeIn();
+                    },
+                    error: function(data) {
+                        alert('Random Follow Friday #FAIL')
+                    }
+                });
+                
+                return false;
+            });
+        
+        });
+        
+        </script>
+    </head>
+    <body>
+        <h1>Random Follow Friday</h1>
+        <p class="feature">Use our intelligent advanced patented algorithm® to choose who<br /> deserves an indication in your #FF.</p>
+        
+        <div class="itsNotFriday">
+            <h2 style="margin-left: 0;">This special service is only open during Fridays, from 0:00 AM to 11:59 PM.<br />Thank you.</h2>
+        </div>
+        
+        <div class="itsFriday">
+            <h2>1. your twitter username</h2>
+            <form action="/friends" method="post">
+                <p><input class="text" type="text" value="{{ user }}" name="username" /><button type="submit">And Voilà!</button></p>
+            </form>
+            
+            <h2 class="next">2. <a class="linkToTwitter" href="#">post the result</a> on your twitter</h2>
+            <p class="next result"></p>
+        </div>
+       <div id="loader"><img src="static/images/spinner.gif" /></div> 
+        <div id="footer">
+            This amazing service is brought to you by <a href="http://twitter.com/licio">@licio</a> and <a href="http://twitter.com/vdepizzol">@vdepizzol</a>.
+        </div>
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-13249581-1");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+
+    </body>
+</html>
